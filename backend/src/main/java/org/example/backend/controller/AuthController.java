@@ -35,14 +35,15 @@ public class AuthController {
 //    @PostMapping("/register")
 //    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
 //        userDTO.setRole("CUSTOMER");
-////        userService.register(userDTO);
+
+    /// /        userService.register(userDTO);
 //        customerService.insertCustomer(new CustomerDTO());
 //        return ResponseEntity.ok("Đăng ký thành công!");
 //    }
-@PostMapping("/register")
-public ResponseEntity<?> register(@RequestBody CustomerDTO customerDTO) {
-    customerService.insertCustomer(customerDTO);
-    return ResponseEntity.ok("Đăng ký thành công!");
-}
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody CustomerDTO customerDTO) {
+        customerService.insertCustomer(customerDTO);
+        return ResponseEntity.ok("Đăng ký thành công!");
+    }
 
 }
