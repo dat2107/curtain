@@ -19,8 +19,14 @@ public class User {
     @Column(name = "role", length = 50, nullable = false)
     private String role;
 
-    private String provider;      // "local", "google", "facebook"
-    private String providerId;    // ID từ Google/Facebook
+    @Column(name = "provider")
+    private String provider;
+
+    @Column(name = "provider_id")
+    private String providerId;
+
+//    private String provider;      // "local", "google", "facebook"
+//    private String providerId;    // ID từ Google/Facebook
 
     // Constructors
     public User() {}
@@ -64,5 +70,19 @@ public class User {
         this.password = password;
     }
 
+    public String getProvider() {
+        return provider;
+    }
 
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
 }

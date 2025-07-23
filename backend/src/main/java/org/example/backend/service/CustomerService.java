@@ -33,6 +33,8 @@ public class CustomerService {
         user.setUsername(dto.getUsername());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole("CUSTOMER");
+        user.setProvider("LOCAL");
+        user.setProviderId(null); // hoặc ""
         userRepository.save(user);
 
         Customer customer = new Customer();

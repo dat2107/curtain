@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +44,10 @@ public class UserService {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
-            return jwtUtil.generateToken(username);
+
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            return jwtUtil.generateToken(userDetails);
+
         } catch (BadCredentialsException e) {
             System.out.println(">>> Sai mật khẩu hoặc tài khoản không tồn tại");
             throw new RuntimeException("Sai thông tin đăng nhập");
@@ -52,6 +56,7 @@ public class UserService {
             throw new RuntimeException("Lỗi đăng nhập");
         }
     }
+
 
 
 }

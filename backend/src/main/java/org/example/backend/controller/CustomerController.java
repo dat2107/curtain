@@ -29,6 +29,7 @@ public class CustomerController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     @GetMapping
     public ResponseEntity<?> getAllCustomer(){
         try {
