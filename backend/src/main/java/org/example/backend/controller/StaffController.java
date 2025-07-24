@@ -5,6 +5,7 @@ import org.example.backend.model.Staff;
 import org.example.backend.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,21 +21,24 @@ public class StaffController {
         return ResponseEntity.ok(staffService.createStaff(dto));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Staff>> getAllStaff(){
         return ResponseEntity.ok(staffService.getAllStaff());
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<Staff> getStaff(@PathVariable Long id, @RequestBody StaffDTO dto){
+    @GetMapping("/{id}")
+    public ResponseEntity<Staff> getStaff(@PathVariable Long id){
         return ResponseEntity.ok(staffService.getStaff(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestBody StaffDTO dto) {
         return ResponseEntity.ok(staffService.updateStaff(id, dto));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStaff(@PathVariable Long id) {
         staffService.deleteStaff(id);

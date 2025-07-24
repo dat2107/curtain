@@ -5,6 +5,8 @@ import org.example.backend.model.Customer;
 import org.example.backend.model.User;
 import org.example.backend.repository.CustomerRepository;
 import org.example.backend.repository.UserRepository;
+import org.example.backend.security.JwtFilter;
+import org.example.backend.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,9 @@ public class CustomerService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public Customer insertCustomer(CustomerDTO dto){
         if (userRepository.existsByUsername(dto.getUsername())) {
@@ -54,14 +59,19 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng"));
     }
 
-    public Customer updateCustomer(Long id, CustomerDTO dto, String userIdFromToken){
-        Customer customer = getCustomerById(id);
-        if (!customer.getUser().getId().equals(userIdFromToken)) {
-            throw new AccessDeniedException("Bạn không có quyền sửa thông tin người khác");
+    public Customer updateCustomer(Long id, CustomerDTO dto){
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy nhân viên"));
+        if (dto.getFullName() != null) {
+            customer.setFullName(dto.getFullName());
         }
-        customer.setFullName(dto.getFullName());
-        customer.setEmail(dto.getEmail());
-        customer.setPhone(dto.getPhone());
+        if (dto.getEmail() != null) {
+            customer.setEmail(dto.getEmail());
+        }
+        if (dto.getPhone() != null) {
+            customer.setPhone(dto.getPhone());
+        }
+
         return customerRepository.save(customer);
     }
 
@@ -69,5 +79,17 @@ public class CustomerService {
         Customer customer = getCustomerById(id);
         customerRepository.delete(customer);
         userRepository.delete(customer.getUser());
+    }
+
+    public Customer findCustomerByToken(String token) {
+        String username = jwtUtil.getUsernameFromToken(token);
+
+        // Tìm user theo username
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy user"));
+
+        // Tìm customer theo userId (idAccount)
+        return customerRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy customer"));
     }
 }

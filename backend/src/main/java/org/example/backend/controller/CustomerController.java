@@ -1,6 +1,7 @@
 package org.example.backend.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.backend.dto.CustomerDTO;
 import org.example.backend.model.Customer;
 import org.example.backend.service.CustomerService;
@@ -54,9 +55,24 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("#id == principal.id or hasRole('CUSTOMER')")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO dto, String userIdFromToken){
-        return ResponseEntity.ok(customerService.updateCustomer(id,dto,userIdFromToken));
+    public ResponseEntity<?> updateCustomer(@PathVariable Long id,
+                                            @RequestBody CustomerDTO dto,
+                                            HttpServletRequest request) {
+        // Lấy token từ header
+        String token = request.getHeader("Authorization").substring(7);
+
+        // Lấy customer đang đăng nhập
+        Customer currentCustomer = customerService.findCustomerByToken(token);
+
+        // So sánh ID thực tế với ID truyền vào
+        if (!currentCustomer.getId().equals(id)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Bạn không có quyền sửa thông tin người khác.");
+        }
+
+        // Cho phép cập nhật
+        Customer updated = customerService.updateCustomer(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
