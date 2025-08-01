@@ -1,0 +1,140 @@
+/* Reset padding/margin + font mặc định */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f7f6;
+    height: 100vh;
+}
+
+/* Bọc toàn màn hình login */
+.login-wrapper {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bên trái - Logo + slogan */
+.login-left {
+    background: linear-gradient(135deg, #9F7AEA, #805AD5);
+    color: #fff;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    padding: 40px 20px;
+}
+
+.login-left h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 16px;
+}
+
+.login-left p {
+    margin-top: 8px;
+    text-align: center;
+    max-width: 240px;
+}
+
+/* Bên phải - Form đăng nhập */
+.login-right {
+    background-color: #fff;
+    flex: 1;
+    padding: 40px 30px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.login-right h2 {
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.login-right p {
+    color: #6c757d;
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+/* Input form */
+.form-container input {
+    height: 44px;
+    font-size: 15px;
+}
+
+.btn-login {
+    background: linear-gradient(to right, #A78BFA, #805AD5);
+    border: none;
+    color: white;
+    font-weight: 600;
+    height: 44px;
+    border-radius: 8px;
+}
+
+.btn-login:hover {
+    opacity: 0.9;
+}
+
+/* Button Google/Facebook */
+.btn-social {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Divider text */
+.divider-with-text {
+    text-align: center;
+    position: relative;
+    margin: 24px 0;
+}
+
+.divider-with-text span {
+    background: #fff;
+    padding: 0 10px;
+    color: #999;
+    font-size: 14px;
+}
+
+.divider-with-text::before,
+.divider-with-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider-with-text::before {
+    left: 0;
+}
+
+.divider-with-text::after {
+    right: 0;
+}
+
+/* Link đăng ký */
+.login-right .register-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-right .register-link a {
+    color: #805AD5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-right .register-link a:hover {
+    text-decoration: underline;
+}
